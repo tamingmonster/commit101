@@ -1,5 +1,6 @@
 ![LOGO](public/banner.png)
 > A Minimalist & Geeky Resume Generator for Developers.
+> [Try it now](https://tamingmonster.github.io/commit101/)
 
 ## ✨ Features
 
