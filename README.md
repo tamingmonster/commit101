@@ -27,22 +27,13 @@ Ensure your local environment has [Node.js](https://nodejs.org/) installed (v24+
 
 ### Installation
 
-1. **Clone the repository**
-
-   ```bash
-   git clone https://github.com/your-username/commit-101.git
-   cd commit-101
-   ```
-
-2. **Install dependencies**
+1. **Install dependencies**
 
    ```bash
    npm install
-   # or using pnpm
-   # pnpm install
    ```
 
-3. **Start development server**
+2. **Start development server**
 
    ```bash
    npm run dev
