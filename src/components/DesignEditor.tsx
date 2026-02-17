@@ -1,6 +1,5 @@
 import { useResumeStore } from '../store/useResumeStore';
-import { LayoutTemplate, Check } from 'lucide-react';
-import { Section } from './ui/Section';
+import { Check } from 'lucide-react';
 import { themes, themeLabels } from '../utils/themes';
 import type { ThemeColor } from '../utils/themes';
 
