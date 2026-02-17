@@ -10,7 +10,7 @@ export const PreviewSkills = ({ skills, settings }: PreviewSkillsProps) => {
   if (items.length === 0 || !settings.visibleSections.skills) return null;
 
   return (
-    <section className="flex flex-wrap gap-2">
+    <section className="flex flex-wrap gap-[length:var(--spacing-inner)]">
       {items.map((item, index) => (
         <span 
           key={index}

@@ -8,10 +8,25 @@ export type SectionProps = {
   defaultOpen?: boolean;
   isVisible?: boolean;
   onToggleVisibility?: () => void;
+  color?: 'blue' | 'purple';
 };
 
-export const Section = ({ title, icon: Icon, children, defaultOpen = false, isVisible = true, onToggleVisibility }: SectionProps) => {
+export const Section = ({ title, icon: Icon, children, defaultOpen = false, isVisible = true, onToggleVisibility, color = 'blue' }: SectionProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  
+  const colors = {
+    blue: {
+      text: 'text-blue-400',
+      bg: 'group-hover:bg-blue-500/20',
+    },
+    purple: {
+      text: 'text-purple-400',
+      bg: 'group-hover:bg-purple-500/20',
+    },
+  };
+  
+  const activeColor = colors[color];
+
   return (
     <div className="border-b border-white/5 last:border-none">
       <div 
@@ -19,7 +34,7 @@ export const Section = ({ title, icon: Icon, children, defaultOpen = false, isVi
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="flex items-center gap-3 font-medium text-gray-200 group-hover:text-white transition-colors">
-          <div className="p-1.5 rounded-md bg-white/5 group-hover:bg-blue-500/20 text-blue-400 transition-colors">
+          <div className={`p-1.5 rounded-md bg-white/5 ${activeColor.bg} ${activeColor.text} transition-colors`}>
             <Icon size={16} />
           </div>
           {title}
@@ -31,7 +46,7 @@ export const Section = ({ title, icon: Icon, children, defaultOpen = false, isVi
                 e.stopPropagation();
                 onToggleVisibility();
               }}
-              className={`p-1.5 rounded-md hover:bg-white/10 transition-colors ${isVisible ? 'text-blue-400' : 'text-gray-500'}`}
+              className={`p-1.5 rounded-md hover:bg-white/10 transition-colors ${isVisible ? activeColor.text : 'text-gray-500'}`}
               title={isVisible ? "Visible" : "Hidden"}
             >
               {isVisible ? <Eye size={16} /> : <EyeOff size={16} />}
