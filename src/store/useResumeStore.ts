@@ -101,9 +101,11 @@ const initialData: ResumeData = {
     },
   ],
   settings: {
-    themeColor: '#007acc',
+    themeColor: 'blue',
     fontFamily: 'mono',
+    density: 'normal',
     showIcons: true,
+    showLineNumbersSidebar: true,
     layout: 'developer',
     visibleSections: {
       education: true,
@@ -127,6 +129,7 @@ const initialData: ResumeData = {
       projects: 'Projects',
       skills: 'Skills',
     },
+    headerStyle: 'js',
     visibleFields: {
       educationDescription: true,
     },
@@ -153,6 +156,7 @@ const normalizeResumeData = (data: ResumeData): ResumeData => ({
       ...initialData.settings.sectionTitles,
       ...data.settings.sectionTitles,
     },
+    headerStyle: data.settings.headerStyle ?? initialData.settings.headerStyle,
     visibleFields: {
       ...initialData.settings.visibleFields,
       ...data.settings.visibleFields,
@@ -619,12 +623,7 @@ export const useResumeStore = create<ResumeStore>()(
       name: 'resume-collection-v1',
       storage: createJSONStorage(() => localStorage),
       version: 0,
-      migrate: (persistedState: any, version) => {
-        if (version === undefined) {
-          return persistedState;
-        }
-        return persistedState;
-      },
+      migrate: (persistedState) => persistedState,
       partialize: (state) => ({
         resumes: state.resumes,
         activeResumeId: state.activeResumeId,

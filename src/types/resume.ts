@@ -51,9 +51,11 @@ export interface SkillItem {
 }
 
 export interface ResumeSettings {
-  themeColor: string;
+  themeColor: 'blue' | 'purple' | 'green' | 'orange' | 'red' | 'gray';
   fontFamily: string;
+  density: 'compact' | 'normal' | 'loose';
   showIcons: boolean;
+  showLineNumbersSidebar: boolean;
   layout: 'classic' | 'modern' | 'developer';
   visibleSections: {
     education: boolean;
@@ -77,6 +79,7 @@ export interface ResumeSettings {
     projects: string;
     skills: string;
   };
+  headerStyle: 'js' | 'python' | 'java' | 'cpp' | 'go' | 'rust' | 'plain';
   visibleFields: {
     educationDescription: boolean;
   };

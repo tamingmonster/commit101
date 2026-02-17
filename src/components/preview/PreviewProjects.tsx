@@ -1,5 +1,6 @@
 import { Link as LinkIcon } from 'lucide-react';
 import type { ResumeData } from '../../types/resume';
+import { themes } from '../../utils/themes';
 
 interface PreviewProjectsProps {
   projects: ResumeData['projects'];
@@ -8,16 +9,17 @@ interface PreviewProjectsProps {
 
 export const PreviewProjects = ({ projects, settings }: PreviewProjectsProps) => {
   if (projects.length === 0 || !settings.visibleSections.projects) return null;
+  const theme = themes[settings.themeColor || 'blue'] || themes.blue;
 
   return (
-    <section className="mb-2">
-      <div className="flex items-center gap-2 mb-4 text-gray-900 font-bold border-b border-gray-200 pb-2">
+    <section>
+      <div className="flex items-center gap-2 mb-[length:var(--spacing-inner)] text-gray-900 font-bold border-b border-gray-200 pb-2">
          <span className="inline-flex items-center gap-2 text-xl leading-none">
            <span className="leading-none">🚀</span>
           <span>{settings.sectionTitles.projects}</span>
          </span>
       </div>
-      <div className="grid grid-cols-1 gap-2">
+      <div className="grid grid-cols-1 gap-[length:var(--spacing-item)]">
         {projects.map(proj => (
           <div key={proj.id} className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-100">
             <div className="flex justify-between items-baseline mb-1">
@@ -25,19 +27,19 @@ export const PreviewProjects = ({ projects, settings }: PreviewProjectsProps) =>
                 <h3 className="font-bold text-gray-800 inline-flex items-center gap-1 leading-tight">
                   {proj.name}
                   {proj.link && proj.visibleLink && (
-                    <a href={proj.link} target="_blank" rel="noreferrer" className="inline-flex items-center text-gray-400 hover:text-blue-600">
+                    <a href={proj.link} target="_blank" rel="noreferrer" className={`inline-flex items-center text-gray-400 hover:${theme.primary}`}>
                       <LinkIcon size={12} className="block" />
                     </a>
                   )}
                 </h3>
                 {proj.visibleRole && (
-                  <span className="text-xs text-blue-600 font-mono">| {proj.role}</span>
+                  <span className={`text-xs ${theme.primary} font-mono`}>| {proj.role}</span>
                 )}
               </div>
               <span className="inline-flex items-center h-5 text-xs font-mono text-gray-500 leading-none whitespace-nowrap">{proj.startDate} - {proj.endDate}</span>
             </div>
             {proj.visibleDescription && (
-              <p className="text-sm text-gray-600 mb-3 leading-relaxed">{proj.description}</p>
+              <p className="text-sm text-gray-600 mb-[length:var(--spacing-inner)] leading-[var(--line-height)] last:mb-0">{proj.description}</p>
             )}
             <div className="flex flex-wrap gap-1.5">
               {proj.techStack.map((tech, idx) => (

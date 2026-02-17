@@ -1,11 +1,13 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { ResumeEditor } from './components/ResumeEditor';
+import { DesignEditor } from './components/DesignEditor';
 import { ResumePreview } from './components/ResumePreview';
 import { useResumeExport } from './hooks/useResumeExport';
 import { useResumeImport } from './hooks/useResumeImport';
 import { Header } from './components/Header';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useResumeStore } from './store/useResumeStore';
+import { PenTool, LayoutTemplate } from 'lucide-react';
 
 function App() {
   const componentRef = useRef<HTMLDivElement>(null);
@@ -13,6 +15,7 @@ function App() {
   const { isExporting, handleExportImage, handleExportPDF } = useResumeExport(hiddenRef);
   const { applyImportedData, importError, setImportError } = useResumeImport();
   const activeResumeId = useResumeStore((state) => state.activeResumeId);
+  const [activeTab, setActiveTab] = useState<'content' | 'design'>('content');
 
   const handleImportJSON = (file: File) => {
     const reader = new FileReader();
@@ -56,10 +59,49 @@ function App() {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="w-1/2 max-w-xl glass rounded-3xl overflow-hidden flex flex-col"
           >
-            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#1e1e1e]/40 relative">
+            {/* Tab Bar */}
+            <div className="mx-1 mt-3 mb-2 p-1 bg-black/20 rounded-xl flex gap-1 border border-white/5">
+              <button
+                onClick={() => setActiveTab('content')}
+                className={`flex-1 flex items-center justify-center gap-2 text-sm font-medium rounded-lg transition-all relative z-0 overflow-hidden group ${
+                  activeTab === 'content' ? 'text-blue-200' : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                {activeTab === 'content' && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-white/10 shadow-sm border border-white/5 rounded-lg z-[-1]"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <PenTool size={16} className={`transition-colors ${activeTab === 'content' ? 'text-blue-400' : 'group-hover:text-blue-400/70'}`} />
+                <span className="relative z-10">Content</span>
+              </button>
+              
+              <button
+                onClick={() => setActiveTab('design')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-sm font-medium rounded-lg transition-all relative z-0 overflow-hidden group ${
+                  activeTab === 'design' ? 'text-purple-200' : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                {activeTab === 'design' && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-white/10 shadow-sm border border-white/5 rounded-lg z-[-1]"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <LayoutTemplate size={16} className={`transition-colors ${activeTab === 'design' ? 'text-purple-400' : 'group-hover:text-purple-400/70'}`} />
+                <span className="relative z-10">Design</span>
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#1e1e1e]/40 relative mx-1 mb-1 rounded-2xl">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={activeResumeId}
+                  key={activeResumeId + activeTab}
                   initial={{ opacity: 0, y: 20, filter: 'blur(5px)' }}
                   animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                   exit={{ opacity: 0, y: -20, filter: 'blur(5px)' }}
@@ -69,7 +111,7 @@ function App() {
                   }}
                   className="h-full"
                 >
-                  <ResumeEditor />
+                  {activeTab === 'content' ? <ResumeEditor /> : <DesignEditor />}
                 </motion.div>
               </AnimatePresence>
             </div>
